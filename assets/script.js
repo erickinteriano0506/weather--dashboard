@@ -90,6 +90,54 @@ function populateCityWeather(city, citySearchList) {
             $("#current-uv").text("UV Index ");
             $("current-uv").append(uvIndexDisplay.text(uvIndex[0].value));
             console.log(uvIndex[0].value);
+
+            $.ajax({
+                url: queryUrl2,
+                method: "GET"
+            }).then(function(forecast) {
+                console.log(queryUrl2);
+
+                console.log(forecast);
+
+                for (var i = 6; i < forecast.list.length; i += 8) {
+
+                    var forecastDate = $("<h5>");
+
+                    var forecastPosition = (i + 2) / 8;
+
+                    console.log("forecast-date" + forecastPosition);
+
+                    $("#forecast-date" + forecastPosition).empty();
+                    $("#forecast-date" + forecastPosition).append(
+                        forecastDate.text(nowMoment.add(1, "days").format("M/D/YYYY"))
+                    );
+
+                    var forecastIcon = $("<img>");
+                    forecastIcon.attr(
+                        "src",
+                        "https://openweathermap.org/img/w/" +
+                        forecast.list[i].weather[0].icon +
+                        ".png"
+                    );
+
+                    $("#forecast-icon" + forecastPosition).empty();
+                    $("#forecast-icon" + forecastPosition).append(forecastIcon);
+
+                    console.log(forecast.list[i].weather[0].icon);
+
+                    $("#forecast-temp" + forecastPosition).text(
+                        "Temp: " + forecast.list[i].main.temp + " °F"
+                    );
+                    $("#forecast-humidity" + forecastPosition).text(
+                        "Humidity: " + forecast.list[i].main.humidity + "%"
+                    );
+
+                    $(".forecast").attr(
+                        "style",
+                        "background-color:dodgerblue; color:white"   
+                    )
+                }
+            })
         })    
     })
 }
