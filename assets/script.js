@@ -51,5 +51,20 @@ function populateCityWeather(city, citySearchList) {
         $("#city-name").append(
             displayMoment.text("(" + nowMoment.format("M/D/YYYY") + ")")
         );
+
+        var cityName = $("<h3>").text(weather.name);
+        $("#city-name").prepend(cityName);
+
+        var weatherIcon = $("<img>");
+        weatherIcon.attr(
+            "src",
+            "https://openweathermap.org/img/w/" + weather.weather[0].icon + ".png"
+        );
+        $("#current-icon").empty();
+        $("#current-icon").append(weatherIcon);
+
+        $("#current-temp").text("Temperature " + weather.main.temp + " °F");
+        $("#current-humidity").text("Humidity: " + weather.main.humidity + "%");
+        $("#current-wind").text("Wind Speed: " + weather.wind.speed + " MPH")
     })
 }
